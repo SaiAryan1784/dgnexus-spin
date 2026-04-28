@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Righteous } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const inter = Inter({
@@ -41,6 +42,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full bg-base text-ink antialiased" style={{ fontFamily: "Righteous, system-ui, sans-serif" }}>
         {children}
+        <Analytics />
       </body>
     </html>
   );
