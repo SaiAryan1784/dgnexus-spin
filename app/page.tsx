@@ -31,8 +31,8 @@ export default function Page() {
       <Loader />
       <Navbar />
 
-      <main className="flex-1 flex items-center justify-center pt-20 lg:pt-24 px-4 relative z-10">
-        <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-center gap-0 sm:gap-2 lg:gap-16">
+      <main className="flex-1 flex flex-col items-stretch pt-16 md:pt-20 lg:flex-row lg:items-center lg:justify-center lg:pt-24 px-4 relative z-10">
+        <div className="w-full h-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-evenly lg:justify-center gap-0 sm:gap-2 lg:gap-16">
           <div className="flex-1 flex justify-center lg:justify-end w-full max-w-xl shrink-0">
             <Hero />
           </div>
