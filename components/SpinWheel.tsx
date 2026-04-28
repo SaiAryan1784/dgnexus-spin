@@ -267,23 +267,24 @@ export default function SpinWheel({ spinCount, onSpinComplete }: SpinWheelProps)
   return (
     <div
       id="spin"
-      className="flex flex-col items-center gap-6 lg:gap-10"
+      className="flex flex-col items-center gap-2 sm:gap-4 lg:gap-10"
     >
       <div className="text-center max-w-sm px-4">
         <motion.h2
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="text-3xl md:text-4xl lg:text-5xl tracking-widest text-ink"
+          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-widest text-ink"
           style={{ fontFamily: "var(--font-funky)" }}
         >
           Unlock Your Discount
         </motion.h2>
+        {/* Hide subtitle on mobile to save vertical space */}
         <motion.p
           initial={{ y: 16, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.12, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-2 lg:mt-3 text-sm sm:text-base py-1.5 px-3 rounded-xl inline-block"
+          className="hidden sm:inline-block mt-2 lg:mt-3 text-sm sm:text-base py-1.5 px-3 rounded-xl"
           style={{
             color: "#0F172A",
             fontFamily: "var(--font-inter), system-ui, sans-serif",
@@ -309,7 +310,7 @@ export default function SpinWheel({ spinCount, onSpinComplete }: SpinWheelProps)
       >
         {/* Wheel + pointer wrapper */}
         <div
-          className="relative w-full max-w-[280px] sm:max-w-[340px] md:max-w-[380px] aspect-square"
+          className="relative w-full max-w-[200px] sm:max-w-[280px] md:max-w-[340px] lg:max-w-[380px] aspect-square"
         >
           {/* Pointer arrow — fixed at top-center */}
           <motion.div
@@ -342,7 +343,7 @@ export default function SpinWheel({ spinCount, onSpinComplete }: SpinWheelProps)
         </div>
 
         {/* Spin button */}
-        <div className="mt-8 lg:mt-10 flex flex-col items-center gap-3">
+        <div className="mt-3 sm:mt-6 lg:mt-10 flex flex-col items-center gap-2 sm:gap-3">
           {spinCount >= 2 ? (
             <motion.p
               initial={{ opacity: 0, y: 8 }}
@@ -360,7 +361,7 @@ export default function SpinWheel({ spinCount, onSpinComplete }: SpinWheelProps)
                 disabled={isSpinning}
                 whileHover={!isSpinning ? { scale: 1.04 } : {}}
                 whileTap={!isSpinning ? { scale: 0.96 } : {}}
-                className="relative overflow-hidden px-10 py-3.5 lg:px-12 lg:py-4 rounded-full text-sm font-semibold tracking-wide transition-colors cursor-pointer select-none disabled:cursor-not-allowed"
+                className="relative overflow-hidden px-7 py-2.5 sm:px-10 sm:py-3.5 lg:px-12 lg:py-4 rounded-full text-sm font-semibold tracking-wide transition-colors cursor-pointer select-none disabled:cursor-not-allowed"
                 style={{
                   backgroundColor: isSpinning ? "#475569" : "#1E3A8A",
                   color: "#FFFFFF",

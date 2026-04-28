@@ -32,12 +32,12 @@ export default function Page() {
       <Navbar />
 
       <main className="flex-1 flex items-center justify-center pt-20 lg:pt-24 px-4 relative z-10">
-        <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-center gap-2 lg:gap-16">
+        <div className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-center gap-0 sm:gap-2 lg:gap-16">
           <div className="flex-1 flex justify-center lg:justify-end w-full max-w-xl shrink-0">
             <Hero />
           </div>
 
-          <div className="flex-1 flex justify-center lg:justify-start w-full mt-2 sm:mt-0 lg:mt-0">
+          <div className="flex-1 flex justify-center lg:justify-start w-full">
             <SpinWheel spinCount={spinCount} onSpinComplete={handleSpinComplete} />
           </div>
         </div>
