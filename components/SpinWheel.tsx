@@ -85,7 +85,7 @@ function drawWheel(
   ctx.lineWidth = 3;
   ctx.stroke();
 
-  // Center hub
+  // Center hub ring (the SPIN button is rendered as an HTML overlay on top)
   ctx.beginPath();
   ctx.arc(cx, cy, 22, 0, 2 * Math.PI);
   ctx.fillStyle = "#FFFFFF";
@@ -93,11 +93,6 @@ function drawWheel(
   ctx.shadowBlur = 8;
   ctx.fill();
   ctx.shadowBlur = 0;
-
-  ctx.beginPath();
-  ctx.arc(cx, cy, 10, 0, 2 * Math.PI);
-  ctx.fillStyle = "#1E3A8A";
-  ctx.fill();
 }
 
 interface SpinWheelProps {
@@ -267,18 +262,9 @@ export default function SpinWheel({ spinCount, onSpinComplete }: SpinWheelProps)
   return (
     <div
       id="spin"
-      className="flex flex-col items-center gap-2 sm:gap-4 lg:gap-10"
+      className="flex flex-col items-center gap-2 sm:gap-3 lg:gap-4"
     >
       <div className="text-center max-w-sm px-4">
-        <motion.h2
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-widest text-ink"
-          style={{ fontFamily: "var(--font-funky)" }}
-        >
-          Unlock Your Discount
-        </motion.h2>
         {/* Hide subtitle on mobile to save vertical space */}
         <motion.p
           initial={{ y: 16, opacity: 0 }}
@@ -310,7 +296,7 @@ export default function SpinWheel({ spinCount, onSpinComplete }: SpinWheelProps)
       >
         {/* Wheel + pointer wrapper */}
         <div
-          className="relative w-full max-w-[200px] sm:max-w-[280px] md:max-w-[340px] lg:max-w-[380px] aspect-square"
+          className="relative w-full max-w-[200px] sm:max-w-[280px] md:max-w-[340px] lg:max-w-[380px] max-h-[60vh] aspect-square"
         >
           {/* Pointer arrow — fixed at top-center */}
           <motion.div
@@ -340,48 +326,54 @@ export default function SpinWheel({ spinCount, onSpinComplete }: SpinWheelProps)
               transition: "filter 0.5s ease",
             }}
           />
-        </div>
 
-        {/* Spin button */}
-        <div className="mt-3 sm:mt-6 lg:mt-10 flex flex-col items-center gap-2 sm:gap-3">
-          {spinCount >= 2 ? (
-            <motion.p
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="text-sm text-muted font-medium bg-secondary/20 px-4 py-2 rounded-full"
-            >
-              You've used both your spins.
-            </motion.p>
-          ) : (
-            <div className="flex flex-col items-center gap-2">
+          {/* Center SPIN button — overlay on the wheel hub */}
+          {spinCount < 2 && (
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
               <motion.button
                 animate={spinBtnControls}
                 onClick={handleSpin}
                 disabled={isSpinning}
-                whileHover={!isSpinning ? { scale: 1.04 } : {}}
-                whileTap={!isSpinning ? { scale: 0.96 } : {}}
-                className="relative overflow-hidden px-7 py-2.5 sm:px-10 sm:py-3.5 lg:px-12 lg:py-4 rounded-full text-sm font-semibold tracking-wide transition-colors cursor-pointer select-none disabled:cursor-not-allowed"
+                whileHover={!isSpinning ? { scale: 1.06 } : {}}
+                whileTap={!isSpinning ? { scale: 0.94 } : {}}
+                aria-label="Spin the wheel"
+                className="pointer-events-auto rounded-full font-semibold tracking-widest uppercase select-none cursor-pointer disabled:cursor-not-allowed flex items-center justify-center text-[10px] sm:text-xs md:text-sm"
                 style={{
-                  backgroundColor: isSpinning ? "#475569" : "#1E3A8A",
+                  width: "28%",
+                  height: "28%",
+                  minWidth: "56px",
+                  minHeight: "56px",
+                  backgroundColor: "#1E3A8A",
                   color: "#FFFFFF",
+                  boxShadow:
+                    "0 6px 18px rgba(30,58,138,0.35), inset 0 0 0 3px rgba(255,255,255,0.85)",
+                  opacity: isSpinning ? 0 : 1,
+                  transition: "opacity 0.25s ease",
                 }}
               >
-                {isSpinning ? (
-                  <span className="flex items-center gap-2">
-                    <motion.span
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
-                      className="inline-block w-3.5 h-3.5 border-2 border-white/40 border-t-white rounded-full"
-                    />
-                    Spinning…
-                  </span>
-                ) : (
-                  "Spin the Wheel"
-                )}
+                Spin
               </motion.button>
-              <p className="text-xs text-muted/80">{2 - spinCount} spin{2 - spinCount !== 1 ? 's' : ''} remaining</p>
             </div>
+          )}
+        </div>
+
+        {/* Status line below the wheel */}
+        <div className="mt-2 sm:mt-3 flex items-center justify-center min-h-[20px]">
+          {spinCount >= 2 ? (
+            <motion.p
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="text-sm text-muted font-medium bg-secondary/20 px-4 py-1.5 rounded-full"
+            >
+              You&apos;ve used both your spins.
+            </motion.p>
+          ) : (
+            <p className="text-xs text-muted/80">
+              {isSpinning
+                ? "Spinning…"
+                : `${2 - spinCount} spin${2 - spinCount !== 1 ? "s" : ""} remaining`}
+            </p>
           )}
         </div>
       </motion.div>
